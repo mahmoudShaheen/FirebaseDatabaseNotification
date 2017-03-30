@@ -11,7 +11,7 @@ exports.sendDatabaseNotification = functions.database.ref('/messages/{messageID}
   if (!event.data.val()) {
     return console.log('Deleted messageID:  ', messageID);
   }
-  //console.log('messageID:  ', messageID);
+  console.log('messageID:  ', messageID);
 
   // Set the message as high priority and have it expire after 24 hours.
   const defaultOptions = {
@@ -27,14 +27,14 @@ exports.sendDatabaseNotification = functions.database.ref('/messages/{messageID}
   return Promise.all([tokensPromise, payloadPromise, optionsPromise]).then(results => {
 
     const tokens  = results[0].val();
-    //console.log('Tokens:  ', tokens);
+    console.log('Tokens:  ', tokens);
     const payload = results[1].val();
-    //console.log('Payload:  ', payload);
+    console.log('Payload:  ', payload);
     const options = results[2].val();
-    //console.log('Options:  ', options);
+    console.log('Options:  ', options);
 
     if(tokens == null || payload == null){
-      return console.log("Tokens/Payload can't be Null");
+      return console.error("Tokens/Payload can't be Null");
     }
     if (options == null){
       options = defaultOptions;
@@ -45,18 +45,15 @@ exports.sendDatabaseNotification = functions.database.ref('/messages/{messageID}
       //delete message from database
       admin.database().ref(`/messages/${messageID}`).set({});
 
-      const error = null;
       //check if there was error in each responce
       response.results.forEach((result, index) => {
-        error = result.error;
+        const error = result.error;
         if (error) {
-          console.error('Failure sending notification to', tokens[index], error);
+          console.error('Failure sending message to:  ', tokens[index], error);
+        } else {
+          console.log('Message sent to:  ', tokens[index]);
         }
-      }
-      if (error == null){
-        console.log("Successfully sent message: ", response);
-      }
+      });
     })
   });
  });
-});

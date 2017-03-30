@@ -1,0 +1,20 @@
+1. install firebase CLI
+	npm install -g firebase-tools
+or to specific location
+	npm install --prefix ./install/here <package>
+
+2. login
+	firebase login
+
+3. initialize
+	firebase init
+
+4. follow the setup instructions
+
+5. edit index.js with your code
+
+6. deploy
+	firebase deploy
+or only functions
+	firebase deploy --only functions
+

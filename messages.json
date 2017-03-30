@@ -1,0 +1,44 @@
+/*
+ *
+ * example of how messages class should be
+ *
+*/
+
+{
+  "messages": {
+    "$id": {
+      "payload":{
+        //message payload as json
+      },
+      "tokens": {
+        //receivers tokens as json
+      },
+      "options":{
+        //message options as json can be null
+      }
+    }
+  }
+}
+
+//example
+{
+  "messages": {
+    "$id": {
+      "payload":{
+        "data": {
+          "title": "message title",
+          "message": "message body",
+          "extra_data": "extra data"
+        }
+      },
+      "tokens": {
+        "$id_1": "token_1",
+        "$id_2": "token_2"
+      },
+      "options":{
+        "priority": "high",
+        "timeToLive": 86400
+      }
+    }
+  }
+}

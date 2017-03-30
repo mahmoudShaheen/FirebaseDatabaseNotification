@@ -1,6 +1,16 @@
 {
   "rules": {
-    ".read": "auth != null",
-    ".write": "auth != null"
+    // User profiles are only readable/writable by the user who owns it
+    "users": {
+      "$UID": {
+        ".read": "auth.uid == $UID",
+        ".write": "auth.uid == $UID"
+      }
+    },
+    // for users to be able to send messages to each other
+    "messages": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    }
   }
 }

@@ -20,15 +20,18 @@ exports.sendDatabaseNotification = functions.database.ref('/messages/{messageID}
   };
 
   //get message content
-  const tokensPromise = admin.database().ref(`/messages/${messageID}/to`).once('value');
-  const payloadPromise = admin.database().ref(`/messages/${messageID}/level`).once('value');
-  const optionsPromise = admin.database().ref(`/messages/${messageID}/message`).once('value');
+  const tokensPromise = admin.database().ref(`/messages/${messageID}/tokens`).once('value');
+  const payloadPromise = admin.database().ref(`/messages/${messageID}/payload`).once('value');
+  const optionsPromise = admin.database().ref(`/messages/${messageID}/options`).once('value');
 
   return Promise.all([tokensPromise, payloadPromise, optionsPromise]).then(results => {
 
     const tokens  = results[0].val();
+    //console.log('Tokens:  ', tokens);
     const payload = results[1].val();
+    //console.log('Payload:  ', payload);
     const options = results[2].val();
+    //console.log('Options:  ', options);
 
     if(tokens == null || payload == null){
       return console.log("Tokens/Payload can't be Null");
@@ -55,4 +58,5 @@ exports.sendDatabaseNotification = functions.database.ref('/messages/{messageID}
       }
     })
   });
+ });
 });
